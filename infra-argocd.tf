@@ -19,10 +19,6 @@ locals {
       client_id     = data.kubernetes_secret_v1.argo_doppler.data.ARGOCD_OIDC_CLIENTID
       client_secret = data.kubernetes_secret_v1.argo_doppler.data.ARGOCD_OIDC_CLIENTSECRET
     }
-    slack = {
-      token    = var.slack_token != "" ? var.slack_token : "sorry_slack_admins_dummy_token"
-      username = var.slack_displayname != "" ? var.slack_displayname : "ArgoCD"
-    }
     repos = {
       argo_apps = {
         app_name              = "argo-apps-primary"
@@ -134,52 +130,5 @@ resource "helm_release" "argocd" {
         username: ${local.argocd_config.repos.argo_apps.username}
         password: "${local.argocd_config.repos.argo_apps.password}"
 EOF
-  ]
-}
-
-resource "helm_release" "argocd_apps_bootstrap" {
-  name       = "argocd-apps-bootstrap"
-  namespace  = kubernetes_namespace_v1.infra["argocd"].metadata[0].name
-  repository = "https://bedag.github.io/helm-charts/"
-  chart      = "raw"
-  version    = "2.0.0"
-  values = [<<-EOF
-    resources:
-      - apiVersion: argoproj.io/v1alpha1
-        kind: Application
-        metadata:
-          name: argo-apps
-          namespace: argocd
-          finalizers: []
-          annotations:
-            notifications.argoproj.io/subscribe.on-deployed.slack: alerts-infra-internal
-            notifications.argoproj.io/subscribe.on-sync-failed.slack: alerts-infra-internal
-            notifications.argoproj.io/subscribe.on-sync-succeeded.slack: alerts-infra-internal
-        spec:
-          project: default
-          source:
-            repoURL: "${var.argo_repo}"
-            path: "${var.argo_path}"
-            targetRevision: "${var.argo_branch}"
-            directory:
-              recurse: ${var.argo_path_recursive}
-              jsonnet: {}
-          destination:
-            server: 'https://kubernetes.default.svc'
-            namespace: ${kubernetes_namespace_v1.infra["argocd"].metadata[0].name}
-          syncPolicy:
-            automated:
-              prune: true
-              allowEmpty: true
-              selfHeal: true
-          ignoreDifferences:
-            - group: '*'
-              kind: '*'
-              jsonPointers:
-                - /metadata/finalizers
-    EOF
-  ]
-  depends_on = [
-    helm_release.argocd
   ]
 }

@@ -1,15 +1,5 @@
-locals {
-  infra_namespaces = [
-    "authentik", # cumulus/backlog#54
-    "awx",       # cumulus/backlog#71
-    "argocd",
-    "external-secrets",
-    "inl-infra"
-  ]
-}
-
 resource "kubernetes_namespace_v1" "infra" {
-  for_each = toset(local.infra_namespaces)
+  for_each = toset(var.infra_namespaces)
 
   metadata {
     name = each.key
@@ -21,7 +11,7 @@ resource "kubernetes_namespace_v1" "infra" {
 }
 
 resource "helm_release" "infra_argo_project" {
-  for_each   = toset(local.infra_namespaces)
+  for_each   = toset(var.infra_namespaces)
   name       = "argocd-infra-project-${each.key}"
   namespace  = kubernetes_namespace_v1.infra["argocd"].metadata[0].name
   repository = "https://bedag.github.io/helm-charts/"
@@ -34,8 +24,7 @@ resource "helm_release" "infra_argo_project" {
         metadata:
           name: ${each.key}
           namespace: argocd
-        annotations:
-          notifications.argoproj.io/subscribe.on-sync-succeeded.slack: "#alerts-infra-internal"
+        annotations: {}
         spec:
           destinations:
             - name: in-cluster

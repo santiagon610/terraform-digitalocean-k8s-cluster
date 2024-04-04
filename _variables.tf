@@ -63,3 +63,27 @@ variable "argo_banner" {
   type        = string
   default     = ""
 }
+
+variable "argo_environments" {
+  description = "Map of ArgoCD environments"
+  type        = map(any)
+  default = {
+    dev = {
+      repo    = "https://github.com/example/repo.git"
+      path    = "path/to/app"
+      branch  = "main"
+      recurse = true
+      project = "default"
+    }
+  }
+}
+
+variable "infra_namespaces" {
+  description = "List of namespaces to create"
+  type        = list(string)
+  default     = [
+    "argocd",
+    "external-secrets",
+    "inl-infra"
+  ]
+}
