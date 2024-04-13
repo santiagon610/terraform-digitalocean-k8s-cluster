@@ -29,7 +29,8 @@ resource "helm_release" "infra_argo_project" {
           destinations:
             - name: in-cluster
               namespace: '*'
-              server: https://kubernetes.default.svc
+            - server: https://kubernetes.default.svc
+              namespace: '*'
           sourceRepos:
             - '*'
           clusterResourceWhitelist:
