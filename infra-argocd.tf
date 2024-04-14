@@ -60,12 +60,6 @@ resource "helm_release" "argocd" {
         - secretName: argocd-tls
           hosts:
             - ${local.argocd_config.fqdn}
-    rbacConfig:
-      policy.csv: |
-        p, role:clusterAdmin, *, *, *, allow
-        p, role:noPerms, *, *, *, deny
-        g, JC_ARGOCD_ADMIN, role:clusterAdmin
-        g, JC_ARGOCD_RO, role:readonly
     resources:
       limits:
         cpu: 100m
@@ -121,6 +115,11 @@ resource "helm_release" "argocd" {
     rbac:
       create: true
       scopes: "[groups]"
+      policy.csv: |
+        p, role:clusterAdmin, *, *, *, allow
+        p, role:noPerms, *, *, *, deny
+        g, JC_ARGOCD_ADMIN, role:clusterAdmin
+        g, JC_ARGOCD_RO, role:readonly
     repositories:
       argo-apps:
         url: ${local.argocd_config.repos.argo_apps.url}
