@@ -81,7 +81,7 @@ variable "argo_environments" {
 variable "infra_namespaces" {
   description = "List of namespaces to create"
   type        = list(string)
-  default     = [
+  default = [
     "argocd",
     "external-secrets",
     "inl-infra"

@@ -43,8 +43,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   namespace  = kubernetes_namespace_v1.infra["argocd"].metadata[0].name
   chart      = "argo-cd"
-  version    = "5.53.8"
-  # version    = "5.51.4"
+  version    = "6.7.11"
   values = [<<-EOF
   server:
     replicas: 1
@@ -56,8 +55,7 @@ resource "helm_release" "argocd" {
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       ingressClassName: "nginx"
       https: false
-      hosts:
-        - ${local.argocd_config.fqdn}
+      hostname: ${local.argocd_config.fqdn}
       tls:
         - secretName: argocd-tls
           hosts:
