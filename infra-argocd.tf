@@ -43,7 +43,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   namespace  = kubernetes_namespace_v1.infra["argocd"].metadata[0].name
   chart      = "argo-cd"
-  version    = "6.7.11"
+  version    = "6.7.13"
   values = [<<-EOF
   server:
     replicas: 1
@@ -126,6 +126,12 @@ resource "helm_release" "argocd" {
         type: ${local.argocd_config.repos.argo_apps.type}
         username: ${local.argocd_config.repos.argo_apps.username}
         password: "${local.argocd_config.repos.argo_apps.password}"
+  notifications:
+    enabled: true
+    secret:
+      create: false
+    cm:
+      create: false
 EOF
   ]
 }
