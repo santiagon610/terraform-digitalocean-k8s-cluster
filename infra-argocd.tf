@@ -14,10 +14,11 @@ locals {
   argocd_config = {
     fqdn = var.argo_fqdn
     oauth = {
-      name          = "Jumpcloud"
-      issuer        = "https://oauth.id.jumpcloud.com/"
-      client_id     = data.kubernetes_secret_v1.argo_doppler.data.ARGOCD_OIDC_CLIENTID
-      client_secret = data.kubernetes_secret_v1.argo_doppler.data.ARGOCD_OIDC_CLIENTSECRET
+      name        = "Jumpcloud"
+      issuer      = "https://oauth.id.jumpcloud.com/"
+      client_id   = data.kubernetes_secret_v1.argo_doppler.data.ARGOCD_OIDC_PUBLIC_CLIENTID
+      admin_gg    = "JC_ARGOCD_ADMIN"
+      readonly_gg = "JC_ARGOCD_RO"
     }
     repos = {
       argo_apps = {
@@ -43,7 +44,7 @@ resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   namespace  = kubernetes_namespace_v1.infra["argocd"].metadata[0].name
   chart      = "argo-cd"
-  version    = "6.7.13"
+  version    = "6.11.1"
   values = [<<-EOF
   server:
     replicas: 1
@@ -102,7 +103,7 @@ resource "helm_release" "argocd" {
           name: ${local.argocd_config.oauth.name}
           issuer: "${local.argocd_config.oauth.issuer}"
           clientID: "${local.argocd_config.oauth.client_id}"
-          clientSecret: "${local.argocd_config.oauth.client_secret}"
+          enablePKCEAuthentication: true
           requestedScopes:
             - openid
             - email
@@ -118,8 +119,8 @@ resource "helm_release" "argocd" {
       policy.csv: |
         p, role:clusterAdmin, *, *, *, allow
         p, role:noPerms, *, *, *, deny
-        g, JC_ARGOCD_ADMIN, role:clusterAdmin
-        g, JC_ARGOCD_RO, role:readonly
+        g, ${local.argocd_config.oauth.admin_gg}, role:clusterAdmin
+        g, ${local.argocd_config.oauth.readonly_gg}, role:readonly
     repositories:
       argo-apps:
         url: ${local.argocd_config.repos.argo_apps.url}
