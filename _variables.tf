@@ -87,3 +87,15 @@ variable "infra_namespaces" {
     "inl-infra"
   ]
 }
+
+variable "sealed_secrets_certificate" {
+  description = "Certificate for Sealed Secrets"
+  type        = string
+  default     = ""
+}
+
+variable "sealed_secrets_privatekey" {
+  description = "Private key for Sealed Secrets"
+  type        = string
+  default     = ""
+}
