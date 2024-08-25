@@ -1,5 +1,5 @@
 resource "helm_release" "argocd_apps_env" {
-  for_each   = var.argo_environments
+  for_each   = var.argocd_environments
   name       = "argocd-apps-${each.key}"
   namespace  = kubernetes_namespace_v1.infra["argocd"].metadata[0].name
   repository = "https://bedag.github.io/helm-charts/"

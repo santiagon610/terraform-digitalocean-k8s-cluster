@@ -9,12 +9,12 @@ resource "kubernetes_namespace_v1" "app_v2" {
   }
 }
 
-resource "helm_release" "app_argo_project_v2" {
+resource "helm_release" "app_argocd_project_v2" {
   for_each   = var.app_projects_v2
   name       = "argocd-app-project-v2-${each.key}"
-  namespace  = local.argo_project_config.namespace
-  repository = local.argo_project_config.helm_repo
-  chart      = local.argo_project_config.helm_chart
+  namespace  = local.argocd_project_config.namespace
+  repository = local.argocd_project_config.helm_repo
+  chart      = local.argocd_project_config.helm_chart
   values = [
     yamlencode({
       resources = [
@@ -23,7 +23,7 @@ resource "helm_release" "app_argo_project_v2" {
           kind       = "AppProject"
           metadata = {
             name      = each.key
-            namespace = local.argo_project_config.namespace
+            namespace = local.argocd_project_config.namespace
             finalizers = concat(
               lookup(each.value, "finalizers", []),
               ["resources-finalizer.argocd.argoproj.io"]
@@ -38,7 +38,7 @@ resource "helm_release" "app_argo_project_v2" {
               }
             ]
             sourceRepos = concat(
-              local.argo_project_config.helm_source_repos,
+              local.argocd_project_config.helm_source_repos,
               lookup(each.value, "sourceRepos", [])
             )
             clusterResourceWhitelist   = lookup(each.value, "clusterResourceWhiteList", [])

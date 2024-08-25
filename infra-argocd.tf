@@ -12,13 +12,15 @@ data "kubernetes_secret_v1" "argo_doppler" {
 
 locals {
   argocd_config = {
-    fqdn = var.argo_fqdn
+    fqdn = var.argocd_fqdn
     oauth = {
-      name        = "Jumpcloud"
-      issuer      = "https://oauth.id.jumpcloud.com/"
-      client_id   = data.kubernetes_secret_v1.argo_doppler.data.ARGOCD_OIDC_PUBLIC_CLIENTID
-      admin_gg    = "JC_ARGOCD_ADMIN"
-      readonly_gg = "JC_ARGOCD_RO"
+      name                       = var.argocd_oidc_issuer_name
+      issuer                     = var.argocd_oidc_issuer_url
+      client_id                  = var.argocd_oidc_client_id
+      client_secret              = var.argocd_oidc_client_secret
+      admin_gg                   = var.argocd_oidc_admin_group
+      readonly_gg                = var.argocd_oidc_readonly_group
+      enable_pkce_authentication = length(var.argocd_oidc_client_secret) > 0 ? false : true
     }
     repos = {
       argo_apps = {
@@ -103,13 +105,14 @@ resource "helm_release" "argocd" {
           name: ${local.argocd_config.oauth.name}
           issuer: "${local.argocd_config.oauth.issuer}"
           clientID: "${local.argocd_config.oauth.client_id}"
-          enablePKCEAuthentication: true
+          clientSecret: "${local.argocd_config.oauth.client_secret}"
+          enablePKCEAuthentication: ${local.argocd_config.oauth.enable_pkce_authentication}
           requestedScopes:
             - openid
             - email
             - profile
             - groups
-      ui.bannercontent: "${var.argo_banner}"
+      ui.bannercontent: "${var.argocd_banner}"
       ui.bannerpermanent: true
       ui.bannerposition: "top"
       statusbadge.enabled: true

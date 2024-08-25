@@ -9,12 +9,12 @@ resource "kubernetes_namespace_v1" "app" {
   }
 }
 
-resource "helm_release" "app_argo_project" {
+resource "helm_release" "app_argocd_project" {
   for_each   = toset(var.app_projects)
   name       = "argocd-app-project-${each.key}"
-  namespace  = local.argo_project_config.namespace
-  repository = local.argo_project_config.helm_repo
-  chart      = local.argo_project_config.helm_chart
+  namespace  = local.argocd_project_config.namespace
+  repository = local.argocd_project_config.helm_repo
+  chart      = local.argocd_project_config.helm_chart
   values = [
     yamlencode({
       resources = [
@@ -23,7 +23,7 @@ resource "helm_release" "app_argo_project" {
           kind       = "AppProject"
           metadata = {
             name      = each.key
-            namespace = local.argo_project_config.namespace
+            namespace = local.argocd_project_config.namespace
           }
           annotations = {
             "notifications.argoproj.io/subscribe.on-sync-succeeded.slack" = "#alerts-infra-internal"

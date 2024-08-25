@@ -4,26 +4,26 @@ variable "doppler_token" {
   default     = ""
 }
 
-variable "argo_repo" {
+variable "argocd_repo" {
   description = "Git repo for Argo apps"
   type        = string
   default     = "https://git.coreinfra.cloud/coreinfra/argo-apps.git"
 }
 
-variable "argo_branch" {
+variable "argocd_branch" {
   description = "Git branch for Argo apps"
   type        = string
   default     = "main"
 }
 
-variable "argo_path" {
-  description = "Path in argo_repo in which app defs are placed"
+variable "argocd_path" {
+  description = "Path in `var.argocd_repo` in which app defs are placed"
   type        = string
   default     = "."
 }
 
-variable "argo_path_recursive" {
-  description = "Should ArgoCD recurse through argo_path?"
+variable "argocd_path_recursive" {
+  description = "Should ArgoCD recurse through `var.argocd_path`?"
   type        = bool
   default     = true
 }
@@ -52,19 +52,19 @@ variable "slack_displayname" {
   default     = "Terraform"
 }
 
-variable "argo_fqdn" {
+variable "argocd_fqdn" {
   description = "FQDN to access ArgoCD"
   type        = string
   default     = "argocd.example.com"
 }
 
-variable "argo_banner" {
+variable "argocd_banner" {
   description = "ArgoCD top banner"
   type        = string
   default     = ""
 }
 
-variable "argo_environments" {
+variable "argocd_environments" {
   description = "Map of ArgoCD environments"
   type        = map(any)
   default = {
@@ -98,4 +98,40 @@ variable "sealed_secrets_privatekey" {
   description = "Private key for Sealed Secrets"
   type        = string
   default     = ""
+}
+
+variable "argocd_oidc_client_id" {
+  description = "OIDC client ID for ArgoCD"
+  type        = string
+  default     = "argocd"
+}
+
+variable "argocd_oidc_client_secret" {
+  description = "OIDC client secret for ArgoCD"
+  type        = string
+  default     = ""
+}
+
+variable "argocd_oidc_issuer_name" {
+  description = "OIDC issuer name for ArgoCD"
+  type        = string
+  default     = "SSO"
+}
+
+variable "argocd_oidc_issuer_url" {
+  description = "OIDC issuer URL for ArgoCD"
+  type        = string
+  default     = "https://sso.example.com/auth/realms/master"
+}
+
+variable "argocd_oidc_admin_group" {
+  description = "OIDC admin group for ArgoCD"
+  type        = string
+  default     = "argocd-admins"
+}
+
+variable "argocd_oidc_readonly_group" {
+  description = "OIDC readonly group for ArgoCD"
+  type        = string
+  default     = "argocd-readonly"
 }
