@@ -1,3 +1,9 @@
+/**
+ * # Kubernetes Bootstrap
+ *
+ * Adds the normal INL accoutrement to a bare Kubernetes cluster.
+ */
+
 terraform {
   required_providers {
     kubernetes = {

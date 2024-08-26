@@ -1,3 +1,8 @@
+<!-- BEGIN_TF_DOCS -->
+# Kubernetes Bootstrap
+
+Adds the normal INL accoutrement to a bare Kubernetes cluster.
+
 ## Requirements
 
 | Name | Version |
@@ -67,3 +72,4 @@ No modules.
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->
