@@ -116,6 +116,7 @@ resource "helm_release" "argocd" {
       ui.bannerpermanent: true
       ui.bannerposition: "top"
       statusbadge.enabled: true
+      statusbadge.url: "https://${local.argocd_config.fqdn}/"
     rbac:
       create: true
       scopes: "[groups]"
