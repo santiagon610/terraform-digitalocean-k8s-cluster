@@ -34,44 +34,38 @@ variable "do_registry_integration" {
   default     = true
 }
 
-variable "nodepool01_min" {
-  description = "Minimum count of nodes for nodepool01"
-  type        = number
-  default     = 2
+variable "initial_node_pool" {
+  description = "Configuration for initial node pool"
+  type = object({
+    name       = string
+    min_nodes  = number
+    max_nodes  = number
+    size       = string
+    auto_scale = bool
+    labels     = map(string)
+  })
+  default = {
+    name       = "initial"
+    min_nodes  = 1
+    max_nodes  = 2
+    size       = "s-4vcpu-8gb"
+    auto_scale = true
+    labels = {
+      managed-by   = "terraform"
+      purpose      = "default"
+      droplet-size = "s-4vcpu-8gb"
+    }
+  }
 }
 
-variable "nodepool01_max" {
-  description = "Maximum count of nodes for nodepool01"
-  type        = number
-  default     = 4
-}
-
-variable "enable_nodepool02" {
-  description = "Enable secondary node pool?"
-  type        = bool
-  default     = true
-}
-
-variable "nodepool02_min" {
-  description = "Minimum count of nodes for nodepool02"
-  type        = number
-  default     = 1
-}
-
-variable "nodepool02_max" {
-  description = "Maximum count of nodes for nodepool02"
-  type        = number
-  default     = 4
-}
-
-variable "nodepool01_dropletsize" {
-  description = "Type of droplet to use for nodepool01"
-  type        = string
-  default     = "s-1vcpu-2gb"
-}
-
-variable "nodepool02_dropletsize" {
-  description = "Type of droplet to use for nodepool02"
-  type        = string
-  default     = "s-4vcpu-8gb"
+variable "additional_node_pools" {
+  description = "Configuration for additional node pools"
+  type = map(object({
+    min_nodes  = number
+    max_nodes  = number
+    size       = string
+    auto_scale = bool
+    labels     = map(string)
+  }))
+  default = {}
 }
