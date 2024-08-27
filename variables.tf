@@ -17,15 +17,9 @@ variable "cluster_name" {
 }
 
 variable "k8s_version" {
-  description = "Version of k8s control plane to use"
+  description = "Version of k8s control plane to use. If blank, uses `data.digitalocean_kubernetes_versions.this.latest_version`"
   type        = string
   default     = ""
-}
-
-variable "k8s_auto_upgrade" {
-  description = "Automatically upgrade k8s control plane?"
-  type        = bool
-  default     = true
 }
 
 variable "do_registry_integration" {
@@ -68,4 +62,22 @@ variable "additional_node_pools" {
     labels     = map(string)
   }))
   default = {}
+}
+
+variable "cluster_tags" {
+  description = "Tags to apply to k8s cluster within DigitalOcean console"
+  type        = list(string)
+  default     = []
+}
+
+variable "maintenance_policy" {
+  description = "Maintenance policy for k8s control plane"
+  type = object({
+    start_time = string
+    day        = string
+  })
+  default = {
+    start_time = "04:00:00"
+    day        = "sunday"
+  }
 }
