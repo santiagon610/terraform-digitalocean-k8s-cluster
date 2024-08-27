@@ -1,10 +1,19 @@
+locals {
+  k8s_version        = length(var.k8s_version) > 0 ? var.k8s_version : data.digitalocean_kubernetes_versions.this.latest_version
+  auto_upgrade_flag  = length(var.k8s_version) == 0 ? true : false
+  maintenance_policy = local.auto_upgrade_flag == true ? [var.maintenance_policy] : []
+}
+
+data "digitalocean_kubernetes_versions" "this" {}
+
 resource "digitalocean_kubernetes_cluster" "this" {
   name                 = var.cluster_name
   region               = var.region
   vpc_uuid             = var.vpc_uuid
-  version              = var.k8s_version
-  auto_upgrade         = var.k8s_auto_upgrade
+  version              = local.k8s_version
+  auto_upgrade         = local.auto_upgrade_flag
   registry_integration = var.do_registry_integration
+  tags                 = var.cluster_tags
 
   node_pool {
     name       = "${var.cluster_name}-${var.initial_node_pool.name}"
@@ -15,9 +24,12 @@ resource "digitalocean_kubernetes_cluster" "this" {
     labels     = var.initial_node_pool.labels
   }
 
-  maintenance_policy {
-    day        = "any"
-    start_time = "04:00"
+  dynamic "maintenance_policy" {
+    for_each = local.maintenance_policy
+    content {
+      start_time = maintenance_policy.value.start_time
+      day        = maintenance_policy.value.day
+    }
   }
 }
 
