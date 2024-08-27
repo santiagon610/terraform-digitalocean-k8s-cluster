@@ -7,17 +7,14 @@ resource "digitalocean_kubernetes_cluster" "this" {
   registry_integration = var.do_registry_integration
 
   node_pool {
-    name       = "${var.cluster_name}-nodepool01"
-    size       = var.nodepool01_dropletsize
-    auto_scale = true
-    min_nodes  = var.nodepool01_min
-    max_nodes  = var.nodepool01_max
-    labels = {
-      "managed_by" = "terraform"
-      "tf_module"  = "k8s_bg_cluster"
-      "node_size"  = "s-1vcpu-2gb"
-    }
+    name       = "${var.cluster_name}-${var.initial_node_pool.name}"
+    size       = var.initial_node_pool.size
+    auto_scale = var.initial_node_pool.auto_scale
+    min_nodes  = var.initial_node_pool.min_nodes
+    max_nodes  = var.initial_node_pool.max_nodes
+    labels     = var.initial_node_pool.labels
   }
+
   maintenance_policy {
     day        = "any"
     start_time = "04:00"
@@ -29,12 +26,13 @@ locals {
   kubeconfig_hcl  = yamldecode(local.kubeconfig_yaml)
 }
 
-resource "digitalocean_kubernetes_node_pool" "nodepool02" {
-  count      = var.enable_nodepool02 ? 1 : 0
-  name       = "${var.cluster_name}-nodepool02"
+resource "digitalocean_kubernetes_node_pool" "additional" {
+  for_each   = var.additional_node_pools
+  name       = "${var.cluster_name}-${each.key}"
   cluster_id = digitalocean_kubernetes_cluster.this.id
-  size       = var.nodepool02_dropletsize
-  auto_scale = true
-  min_nodes  = var.nodepool02_min
-  max_nodes  = var.nodepool02_max
+  size       = each.value.size
+  auto_scale = each.value.auto_scale
+  min_nodes  = each.value.min_nodes
+  max_nodes  = each.value.max_nodes
+  labels     = each.value.labels
 }
