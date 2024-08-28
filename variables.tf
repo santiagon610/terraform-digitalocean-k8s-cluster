@@ -1,17 +1,17 @@
 variable "region" {
-  description = "Digital Ocean region in which to build cluster"
+  description = "DigitalOcean region in which to build Kubernetes cluster"
   type        = string
   default     = "nyc1"
 }
 
 variable "vpc_uuid" {
-  description = "VPC UUID in which to build cluster"
+  description = "UUID of the VPC network in which to build Kubernetes cluster"
   type        = string
   default     = ""
 }
 
 variable "cluster_name" {
-  description = "Descriptive name of k8s cluster"
+  description = "Display name of Kubernetes cluster"
   type        = string
   default     = "k8s"
 }
@@ -23,7 +23,7 @@ variable "k8s_version" {
 }
 
 variable "do_registry_integration" {
-  description = "Integrate cluster with DO registry?"
+  description = "Enable integration with DigitalOcean Container Registry"
   type        = bool
   default     = true
 }
@@ -65,19 +65,19 @@ variable "additional_node_pools" {
 }
 
 variable "cluster_tags" {
-  description = "Tags to apply to k8s cluster within DigitalOcean console"
+  description = "Tags to apply to Kubernetes cluster within DigitalOcean console"
   type        = list(string)
   default     = []
 }
 
 variable "maintenance_policy" {
-  description = "Maintenance policy for k8s control plane"
+  description = "Maintenance policy for Kubernetes control plane. Ignored if `var.k8s_version` is defined."
   type = object({
     start_time = string
     day        = string
   })
   default = {
-    start_time = "04:00:00"
+    start_time = "04:00"
     day        = "sunday"
   }
 }
