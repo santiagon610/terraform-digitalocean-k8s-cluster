@@ -7,13 +7,11 @@ variable "region" {
 variable "vpc_uuid" {
   description = "UUID of the VPC network in which to build Kubernetes cluster"
   type        = string
-  default     = ""
 }
 
 variable "cluster_name" {
   description = "Display name of Kubernetes cluster"
   type        = string
-  default     = "k8s"
 }
 
 variable "k8s_version" {
