@@ -73,8 +73,8 @@ resource "helm_release" "argocd" {
   controller:
     resources:
       limits:
-        cpu: 500m
-        memory: 512Mi
+        cpu: "1"
+        memory: 1Gi
       requests:
         cpu: 250m
         memory: 256Mi
