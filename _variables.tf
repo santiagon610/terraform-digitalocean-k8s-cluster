@@ -4,6 +4,24 @@ variable "doppler_token" {
   default     = ""
 }
 
+variable "argocd_helm_repo" {
+  description = "URL to Helm chart"
+  type        = string
+  default     = "https://argoproj.github.io/argo-helm"
+}
+
+variable "argocd_helm_chart" {
+  description = "Name of Helm chart"
+  type        = string
+  default     = "argo-cd"
+}
+
+variable "argocd_helm_version" {
+  description = "Version of the `var.argocd_helm_chart` to use"
+  type        = string
+  default     = "8.1.1"
+}
+
 variable "argocd_repo" {
   description = "Git repo for Argo apps"
   type        = string

@@ -43,10 +43,10 @@ locals {
 
 resource "helm_release" "argocd" {
   name       = "argocd"
-  repository = "https://argoproj.github.io/argo-helm"
+  repository = var.argocd_helm_repo
   namespace  = kubernetes_namespace_v1.infra["argocd"].metadata[0].name
-  chart      = "argo-cd"
-  version    = "7.8.7"
+  chart      = var.argocd_helm_chart
+  version    = var.argocd_helm_version
   values = [<<-EOF
   server:
     replicas: 1
