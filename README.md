@@ -67,6 +67,7 @@ No modules.
 | <a name="input_argocd_repo"></a> [argocd\_repo](#input\_argocd\_repo) | Git repo for Argo apps | `string` | `"https://git.coreinfra.cloud/coreinfra/argo-apps.git"` | no |
 | <a name="input_doppler_token"></a> [doppler\_token](#input\_doppler\_token) | Service token to access Doppler | `string` | `""` | no |
 | <a name="input_infra_namespaces"></a> [infra\_namespaces](#input\_infra\_namespaces) | List of namespaces to create | `list(string)` | <pre>[<br/>  "argocd",<br/>  "external-secrets",<br/>  "inl-infra"<br/>]</pre> | no |
+| <a name="input_ingress_class"></a> [ingress\_class](#input\_ingress\_class) | Ingress class to use | `string` | `"nginx"` | no |
 | <a name="input_sealed_secrets_certificate"></a> [sealed\_secrets\_certificate](#input\_sealed\_secrets\_certificate) | Certificate for Sealed Secrets | `string` | `""` | no |
 | <a name="input_sealed_secrets_privatekey"></a> [sealed\_secrets\_privatekey](#input\_sealed\_secrets\_privatekey) | Private key for Sealed Secrets | `string` | `""` | no |
 | <a name="input_slack_displayname"></a> [slack\_displayname](#input\_slack\_displayname) | Display name for Slack notifications | `string` | `"Terraform"` | no |

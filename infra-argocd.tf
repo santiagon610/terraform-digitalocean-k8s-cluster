@@ -56,7 +56,7 @@ resource "helm_release" "argocd" {
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      ingressClassName: "nginx"
+      ingressClassName: ${var.ingress_class}
       https: false
       hostname: ${local.argocd_config.fqdn}
       tls:

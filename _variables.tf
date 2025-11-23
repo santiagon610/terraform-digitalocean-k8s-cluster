@@ -153,3 +153,9 @@ variable "argocd_oidc_readonly_group" {
   type        = string
   default     = "argocd-readonly"
 }
+
+variable "ingress_class" {
+  description = "Ingress class to use"
+  type        = string
+  default     = "nginx"
+}
