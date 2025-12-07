@@ -31,6 +31,15 @@ resource "helm_release" "app_argocd_project_v2" {
           }
           annotations = lookup(each.value, "annotations", {})
           spec = {
+            syncPolicy = {
+              syncOptions = lookup(each.value, "syncOptions", [
+                "CreateNamespace=true"
+              ])
+              managedNamespaceMetadata = {
+                labels = lookup(each.value, "managedNamespaceMetadata", {})
+                annotations = lookup(each.value, "managedNamespaceAnnotations", {})
+              }
+            }
             destinations = [
               {
                 name      = "in-cluster"
