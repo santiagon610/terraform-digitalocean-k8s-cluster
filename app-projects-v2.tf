@@ -3,8 +3,8 @@ resource "kubernetes_namespace_v1" "app_v2" {
   metadata {
     name = each.key
     labels = {
-      managed_by           = "terraform"
-      external-secrets-inl = "please"
+      "managed_by"         = "terraform"
+      "inl.io/all-secrets" = "please"
     }
   }
 }

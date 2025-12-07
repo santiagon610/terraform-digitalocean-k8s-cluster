@@ -7,18 +7,18 @@ Adds the normal INL accoutrement to a bare Kubernetes cluster.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.0 |
-| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | ~> 1.0 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.0 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.0 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.0.0 |
+| <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.0.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.0.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_helm"></a> [helm](#provider\_helm) | ~> 2.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.0 |
-| <a name="provider_time"></a> [time](#provider\_time) | ~> 0.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | >= 2.0.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0.0 |
+| <a name="provider_time"></a> [time](#provider\_time) | >= 0.0.0 |
 
 ## Modules
 
@@ -55,7 +55,7 @@ No modules.
 | <a name="input_argocd_fqdn"></a> [argocd\_fqdn](#input\_argocd\_fqdn) | FQDN to access ArgoCD | `string` | `"argocd.example.com"` | no |
 | <a name="input_argocd_helm_chart"></a> [argocd\_helm\_chart](#input\_argocd\_helm\_chart) | Name of Helm chart | `string` | `"argo-cd"` | no |
 | <a name="input_argocd_helm_repo"></a> [argocd\_helm\_repo](#input\_argocd\_helm\_repo) | URL to Helm chart | `string` | `"https://argoproj.github.io/argo-helm"` | no |
-| <a name="input_argocd_helm_version"></a> [argocd\_helm\_version](#input\_argocd\_helm\_version) | Version of the `var.argocd_helm_chart` to use | `string` | `"8.1.1"` | no |
+| <a name="input_argocd_helm_version"></a> [argocd\_helm\_version](#input\_argocd\_helm\_version) | Version of the `var.argocd_helm_chart` to use | `string` | `"9.1.4"` | no |
 | <a name="input_argocd_oidc_admin_group"></a> [argocd\_oidc\_admin\_group](#input\_argocd\_oidc\_admin\_group) | OIDC admin group for ArgoCD | `string` | `"argocd-admins"` | no |
 | <a name="input_argocd_oidc_client_id"></a> [argocd\_oidc\_client\_id](#input\_argocd\_oidc\_client\_id) | OIDC client ID for ArgoCD | `string` | `"argocd"` | no |
 | <a name="input_argocd_oidc_client_secret"></a> [argocd\_oidc\_client\_secret](#input\_argocd\_oidc\_client\_secret) | OIDC client secret for ArgoCD | `string` | `""` | no |

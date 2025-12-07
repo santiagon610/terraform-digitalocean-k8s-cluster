@@ -4,8 +4,9 @@ resource "kubernetes_namespace_v1" "infra" {
   metadata {
     name = each.key
     labels = {
-      managed_by           = "terraform"
-      external-secrets-inl = "please"
+      "managed_by"              = "terraform"
+      "inl.io/all-secrets"      = "please"
+      "inl.io/managed-postgres" = "true"
     }
   }
 }

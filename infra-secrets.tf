@@ -56,7 +56,7 @@ resource "helm_release" "external_managed_secret_stores" {
         spec:
           namespaceSelector:
             matchLabels:
-              external-secrets-inl: please
+              inl.io/all-secrets: please
           refreshTime: 2m
           externalSecretSpec:
             refreshInterval: 2m
