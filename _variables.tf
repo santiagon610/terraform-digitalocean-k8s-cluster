@@ -83,8 +83,13 @@ variable "argocd_banner" {
 }
 
 variable "argocd_environments" {
-  description = "Map of ArgoCD environments"
-  type        = map(any)
+  description = <<-EOT
+    Map of ArgoCD root Applications (directory sync). Optional keys per entry:
+    - include: glob of manifest files to sync (e.g. "{projects.yaml,platform-appset.yaml}")
+    - exclude: glob of files to skip
+    When the path contains Helm values or app catalogs, set recurse = false and use include.
+  EOT
+  type = map(any)
   default = {
     dev = {
       repo    = "https://github.com/example/repo.git"

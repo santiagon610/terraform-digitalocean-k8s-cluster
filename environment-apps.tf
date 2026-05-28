@@ -23,6 +23,7 @@ resource "helm_release" "argocd_apps_env" {
             directory:
               recurse: ${each.value.recurse}
               jsonnet: {}
+${lookup(each.value, "include", null) != null ? "              include: \"${each.value.include}\"\n" : ""}${lookup(each.value, "exclude", null) != null ? "              exclude: \"${each.value.exclude}\"\n" : ""}
           destination:
             server: 'https://kubernetes.default.svc'
             namespace: ${kubernetes_namespace_v1.infra["argocd"].metadata[0].name}

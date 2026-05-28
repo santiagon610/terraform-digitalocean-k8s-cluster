@@ -6,7 +6,7 @@ Adds the normal INL accoutrement to a bare Kubernetes cluster.
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.0.0 |
 | <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.0.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.0.0 |
@@ -15,7 +15,7 @@ Adds the normal INL accoutrement to a bare Kubernetes cluster.
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | >= 2.0.0 |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0.0 |
 | <a name="provider_time"></a> [time](#provider\_time) | >= 0.0.0 |
@@ -27,7 +27,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [helm_release.app_argocd_project](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.app_argocd_project_v2](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.argocd](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
@@ -46,12 +46,12 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_app_projects"></a> [app\_projects](#input\_app\_projects) | List of app namespace and Argo projects | `list(string)` | `[]` | no |
 | <a name="input_app_projects_v2"></a> [app\_projects\_v2](#input\_app\_projects\_v2) | List of app namespace and Argo projects - v2 | `map(any)` | `{}` | no |
 | <a name="input_argocd_banner"></a> [argocd\_banner](#input\_argocd\_banner) | ArgoCD top banner | `string` | `""` | no |
 | <a name="input_argocd_branch"></a> [argocd\_branch](#input\_argocd\_branch) | Git branch for Argo apps | `string` | `"main"` | no |
-| <a name="input_argocd_environments"></a> [argocd\_environments](#input\_argocd\_environments) | Map of ArgoCD environments | `map(any)` | <pre>{<br/>  "dev": {<br/>    "branch": "main",<br/>    "path": "path/to/app",<br/>    "project": "default",<br/>    "recurse": true,<br/>    "repo": "https://github.com/example/repo.git"<br/>  }<br/>}</pre> | no |
+| <a name="input_argocd_environments"></a> [argocd\_environments](#input\_argocd\_environments) | Map of ArgoCD root Applications (directory sync). Optional keys per entry:<br/>- include: glob of manifest files to sync (e.g. "{projects.yaml,platform-appset.yaml}")<br/>- exclude: glob of files to skip<br/>When the path contains Helm values or app catalogs, set recurse = false and use include. | `map(any)` | <pre>{<br/>  "dev": {<br/>    "branch": "main",<br/>    "path": "path/to/app",<br/>    "project": "default",<br/>    "recurse": true,<br/>    "repo": "https://github.com/example/repo.git"<br/>  }<br/>}</pre> | no |
 | <a name="input_argocd_fqdn"></a> [argocd\_fqdn](#input\_argocd\_fqdn) | FQDN to access ArgoCD | `string` | `"argocd.example.com"` | no |
 | <a name="input_argocd_helm_chart"></a> [argocd\_helm\_chart](#input\_argocd\_helm\_chart) | Name of Helm chart | `string` | `"argo-cd"` | no |
 | <a name="input_argocd_helm_repo"></a> [argocd\_helm\_repo](#input\_argocd\_helm\_repo) | URL to Helm chart | `string` | `"https://argoproj.github.io/argo-helm"` | no |
