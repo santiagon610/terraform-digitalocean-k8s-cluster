@@ -111,7 +111,6 @@ resource "helm_release" "argocd" {
             - openid
             - email
             - profile
-            - groups
       ui.bannercontent: "${var.argocd_banner}"
       ui.bannerpermanent: true
       ui.bannerposition: "top"
