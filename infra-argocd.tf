@@ -21,6 +21,8 @@ locals {
       admin_gg                   = var.argocd_oidc_admin_group
       readonly_gg                = var.argocd_oidc_readonly_group
       enable_pkce_authentication = length(var.argocd_oidc_client_secret) > 0 ? false : true
+      requested_scopes           = var.argocd_oidc_requested_scopes
+      tls_skip_verify            = var.argocd_oidc_tls_skip_verify
     }
     repos = {
       argo_apps = {
@@ -95,7 +97,7 @@ resource "helm_release" "argocd" {
     params:
       create: true
       server.insecure: true
-      oidc.tls.insecure.skip.verify: true
+      oidc.tls.insecure.skip.verify: ${local.argocd_config.oauth.tls_skip_verify}
     cm:
       create: true
       url: "https://${local.argocd_config.fqdn}/"
@@ -108,9 +110,9 @@ resource "helm_release" "argocd" {
           clientSecret: "${local.argocd_config.oauth.client_secret}"
           enablePKCEAuthentication: ${local.argocd_config.oauth.enable_pkce_authentication}
           requestedScopes:
-            - openid
-            - email
-            - profile
+%{~for scope in local.argocd_config.oauth.requested_scopes}
+            - ${scope}
+%{~endfor~}
       ui.bannercontent: "${var.argocd_banner}"
       ui.bannerpermanent: true
       ui.bannerposition: "top"

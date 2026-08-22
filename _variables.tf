@@ -148,15 +148,27 @@ variable "argocd_oidc_issuer_url" {
 }
 
 variable "argocd_oidc_admin_group" {
-  description = "OIDC admin group for ArgoCD"
+  description = "OIDC admin group for ArgoCD. Value must match whatever the IdP puts in the ID token's `groups` claim: a group name for IdPs like JumpCloud, or an Entra ID cloud-native group's Object ID (GUID) when the IdP is Microsoft Entra (name-based matching only works there for groups hybrid-synced from on-prem AD with the sAMAccountName claim configured)."
   type        = string
   default     = "argocd-admins"
 }
 
 variable "argocd_oidc_readonly_group" {
-  description = "OIDC readonly group for ArgoCD"
+  description = "OIDC readonly group for ArgoCD. See argocd_oidc_admin_group for how this must be formatted per-IdP."
   type        = string
   default     = "argocd-readonly"
+}
+
+variable "argocd_oidc_requested_scopes" {
+  description = "OIDC scopes to request for ArgoCD login. Defaults cover standard OIDC claims; some IdPs require additional scopes to populate group membership in the ID token."
+  type        = list(string)
+  default     = ["openid", "email", "profile"]
+}
+
+variable "argocd_oidc_tls_skip_verify" {
+  description = "Skip TLS verification when ArgoCD talks to the OIDC issuer. Needed for some internal/self-signed IdP endpoints; should be false for IdPs with publicly trusted certs (e.g. Microsoft Entra)."
+  type        = bool
+  default     = true
 }
 
 variable "ingress_class" {
