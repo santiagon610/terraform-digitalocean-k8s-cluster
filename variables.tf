@@ -20,6 +20,12 @@ variable "k8s_version" {
   default     = ""
 }
 
+variable "ha" {
+  description = "Decides whether the control plane is configured for high availability"
+  type        = bool
+  default     = false
+}
+
 variable "do_registry_integration" {
   description = "Enable integration with DigitalOcean Container Registry"
   type        = bool

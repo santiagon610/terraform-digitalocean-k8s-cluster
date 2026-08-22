@@ -11,6 +11,7 @@ resource "digitalocean_kubernetes_cluster" "this" {
   region               = var.region
   vpc_uuid             = var.vpc_uuid
   version              = local.k8s_version
+  ha                   = var.ha
   auto_upgrade         = local.auto_upgrade_flag
   registry_integration = var.do_registry_integration
   tags                 = var.cluster_tags
