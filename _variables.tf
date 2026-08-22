@@ -89,7 +89,7 @@ variable "argocd_environments" {
     - exclude: glob of files to skip
     When the path contains Helm values or app catalogs, set recurse = false and use include.
   EOT
-  type = map(any)
+  type        = map(any)
   default = {
     dev = {
       repo    = "https://github.com/example/repo.git"

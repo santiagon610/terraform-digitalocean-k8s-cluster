@@ -112,7 +112,7 @@ resource "helm_release" "argocd" {
           requestedScopes:
 %{~for scope in local.argocd_config.oauth.requested_scopes}
             - ${scope}
-%{~endfor~}
+%{~endfor}
       ui.bannercontent: "${var.argocd_banner}"
       ui.bannerpermanent: true
       ui.bannerposition: "top"

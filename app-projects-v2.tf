@@ -36,7 +36,7 @@ resource "helm_release" "app_argocd_project_v2" {
                 "CreateNamespace=true"
               ])
               managedNamespaceMetadata = {
-                labels = lookup(each.value, "managedNamespaceMetadata", {})
+                labels      = lookup(each.value, "managedNamespaceMetadata", {})
                 annotations = lookup(each.value, "managedNamespaceAnnotations", {})
               }
             }
