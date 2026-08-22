@@ -22,6 +22,7 @@ locals {
       readonly_gg                = var.argocd_oidc_readonly_group
       enable_pkce_authentication = length(var.argocd_oidc_client_secret) > 0 ? false : true
       requested_scopes           = var.argocd_oidc_requested_scopes
+      rbac_scopes                = var.argocd_oidc_rbac_scopes
       tls_skip_verify            = var.argocd_oidc_tls_skip_verify
     }
     repos = {
@@ -120,7 +121,7 @@ resource "helm_release" "argocd" {
       statusbadge.url: "https://${local.argocd_config.fqdn}/"
     rbac:
       create: true
-      scopes: "[groups]"
+      scopes: "${local.argocd_config.oauth.rbac_scopes}"
       policy.csv: |
         p, role:clusterAdmin, *, *, *, allow
         p, role:noPerms, *, *, *, deny

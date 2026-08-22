@@ -165,6 +165,12 @@ variable "argocd_oidc_requested_scopes" {
   default     = ["openid", "email", "profile"]
 }
 
+variable "argocd_oidc_rbac_scopes" {
+  description = "ArgoCD RBAC claim(s) to read group membership from, as a casbin scope list string (e.g. \"[groups]\"). Some IdPs (e.g. Entra ID with group-to-approle assignment) emit membership under a different claim such as \"roles\"."
+  type        = string
+  default     = "[groups]"
+}
+
 variable "argocd_oidc_tls_skip_verify" {
   description = "Skip TLS verification when ArgoCD talks to the OIDC issuer. Needed for some internal/self-signed IdP endpoints; should be false for IdPs with publicly trusted certs (e.g. Microsoft Entra)."
   type        = bool
